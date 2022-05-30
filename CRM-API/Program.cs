@@ -1,9 +1,12 @@
+using System.Collections.Concurrent;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using CRM_API.SchemaFilter;
+using CRM_API.Sessions.Models;
 using Data.ModelsCrm;
 using Data.ModelsCrmClient;
 using DomainDependencyInjection;
+using Lamar;
 using Lamar.Microsoft.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
@@ -29,12 +32,9 @@ builder.Host.UseLamar(
             opt.UseSqlite("Data Source=crmDataBase.db3", b => b.MigrationsAssembly("CRM-API"));
         });
 
-        registry.AddDbContext<CrmClientContext>(opt =>
-        {
-            opt.UseSqlite("Data Source=crmClientDataBase.db3", b => b.MigrationsAssembly("CRM-API"));
-        });
+        registry.Include(DomainServerServiceRegister.GetRegister());
 
-        registry.Include(DomainServiceRegister.GetRegister());
+        registry.For<ConcurrentDictionary<string, Session>>().Use<ConcurrentDictionary<string, Session>>().Singleton();
 
         registry.AddEndpointsApiExplorer();
         registry.AddSwaggerGen(opt =>

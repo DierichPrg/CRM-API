@@ -1,4 +1,4 @@
-﻿namespace Domain.Client.ScheduleAgregate.Data
+﻿namespace Domain.Server.UserAgregate.Data
 {
     [Flags]
     public enum ReturnFlag : int
@@ -9,7 +9,7 @@
         InvalidOperation = 1 << 3,
         InvalidData = 1 << 4,
         AlreadyExist = 1 << 5,
-        NoExists = 1 << 6,
-        HasDependency = 1 << 7,
+        HasDependency = 1 << 6,
+        NoExists = 1 << 7,
     }
 }

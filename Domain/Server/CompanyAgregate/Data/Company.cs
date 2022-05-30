@@ -1,13 +1,11 @@
 ﻿using Domain.Interfaces;
 
-namespace Domain.Client.CustomerAgregate.Data
+namespace Domain.Server.CompanyAgregate.Data
 {
-    public class Customer : IDomainClientModel
+    public class Company : IDomainServerModel
     {
         public int Id { get; set; }
         public string Name { get; set; } = null!;
-        public DateTime BrithDay { get; set; }
-        public DateTime Created { get; set; }
         public string Identification { get; set; } = null!;
     }
 }

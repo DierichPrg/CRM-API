@@ -7,7 +7,7 @@ using Customer = Domain.Client.CustomerAgregate.Data.Customer;
 
 namespace Domain.Client.CustomerAgregate
 {
-    public class CustomerDomain : IDomainAgregate<Customer, ReturnFlag>
+    public class CustomerDomain : IDomainClientAgregate<Customer, ReturnFlag>
     {
         private readonly CrmClientContext context;
 

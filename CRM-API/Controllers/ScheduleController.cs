@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using CRM_API.Sessions.Models;
-using Domain.Client.CustomerAgregate.Data;
+using Domain.Client.ScheduleAgregate.Data;
 using Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,23 +10,23 @@ namespace CRM_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CustomerController : CrmController
+    public class ScheduleController : CrmController
     {
-        public CustomerController(ConcurrentDictionary<string, Session> sessions) : base(sessions)
+        public ScheduleController(ConcurrentDictionary<string, Session> sessions) : base(sessions)
         {
         }
 
-        // GET: api/<CustomerController>
+
+        // GET: api/<ScheduleController>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
             if (!this.UserAuthenticated)
                 return Unauthorized($"Invalid token");
 
-            var customerDomain = this.Container.GetService<IDomainClientAgregate<Customer, ReturnFlag>>();
+            var scheduleDomain = this.Container.GetService<IDomainClientAgregate<Schedule, ReturnFlag>>();
 
-
-            var selectAllAsync = await customerDomain!.SelectAllAsync();
+            var selectAllAsync = await scheduleDomain!.SelectAllAsync();
             if (selectAllAsync.TryGetValue(out var list, out var alert))
             {
                 return Ok(list);
@@ -37,16 +37,16 @@ namespace CRM_API.Controllers
             }
         }
 
-        // GET api/<CustomerController>/5
+        // GET api/<ScheduleController>/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
             if (!this.UserAuthenticated)
                 return Unauthorized($"Invalid token");
 
-            var customerDomain = this.Container.GetService<IDomainClientAgregate<Customer, ReturnFlag>>();
+            var scheduleDomain = this.Container.GetService<IDomainClientAgregate<Schedule, ReturnFlag>>();
 
-            var selectAsync = await customerDomain!.SelectAsync(id);
+            var selectAsync = await scheduleDomain!.SelectAsync(id);
 
             if (selectAsync.TryGetValue(out var customer, out var alert))
             {
@@ -58,16 +58,16 @@ namespace CRM_API.Controllers
             }
         }
 
-        // POST api/<CustomerController>
+        // POST api/<ScheduleController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Customer value)
+        public async Task<IActionResult> Post([FromBody] Schedule value)
         {
             if (!this.UserAuthenticated)
                 return Unauthorized($"Invalid token");
 
-            var customerDomain = this.Container.GetService<IDomainClientAgregate<Customer, ReturnFlag>>();
+            var scheduleDomain = this.Container.GetService<IDomainClientAgregate<Schedule, ReturnFlag>>();
 
-            var insertAsync = await customerDomain!.InsertAsync(value);
+            var insertAsync = await scheduleDomain!.InsertAsync(value);
 
             if (insertAsync.TryGetValue(out var customer, out var alert))
             {
@@ -79,16 +79,16 @@ namespace CRM_API.Controllers
             }
         }
 
-        // PUT api/<CustomerController>/5
+        // PUT api/<ScheduleController>/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] Customer value)
+        public async Task<IActionResult> Put(int id, [FromBody] Schedule value)
         {
             if (!this.UserAuthenticated)
                 return Unauthorized($"Invalid token");
 
-            var customerDomain = this.Container.GetService<IDomainClientAgregate<Customer, ReturnFlag>>();
+            var scheduleDomain = this.Container.GetService<IDomainClientAgregate<Schedule, ReturnFlag>>();
 
-            var updateAsync = await customerDomain!.UpdateAsync(value);
+            var updateAsync = await scheduleDomain!.UpdateAsync(value);
 
             if (updateAsync.TryGetValue(out var customer, out var alert))
             {
@@ -100,20 +100,20 @@ namespace CRM_API.Controllers
             }
         }
 
-        // DELETE api/<CustomerController>/5
+        // DELETE api/<ScheduleController>/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             if (!this.UserAuthenticated)
                 return Unauthorized($"Invalid token");
 
-            var customerDomain = this.Container.GetService<IDomainClientAgregate<Customer, ReturnFlag>>();
+            var scheduleDomain = this.Container.GetService<IDomainClientAgregate<Schedule, ReturnFlag>>();
 
-            var selectAsync = await customerDomain!.SelectAsync(id);
+            var selectAsync = await scheduleDomain!.SelectAsync(id);
 
             if (selectAsync.TryGetValue(out var customer, out var alert))
             {
-                var deleteAsync = await customerDomain.DeleteAsync(customer);
+                var deleteAsync = await scheduleDomain.DeleteAsync(customer);
 
                 if (deleteAsync.TryGetValue(out var deleted, out alert))
                 {

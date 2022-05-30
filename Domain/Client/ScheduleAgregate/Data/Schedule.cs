@@ -1,6 +1,8 @@
-﻿namespace Domain.Client.ScheduleAgregate.Data
+﻿using Domain.Interfaces;
+
+namespace Domain.Client.ScheduleAgregate.Data
 {
-    public class Schedule
+    public class Schedule : IDomainClientModel
     {
         public int Id { get; set; }
         public string Title { get; set; } = null!;
