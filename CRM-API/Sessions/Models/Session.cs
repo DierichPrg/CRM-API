@@ -13,7 +13,7 @@ namespace CRM_API.Sessions.Models
     public class Session : IDisposable
     {
         private readonly ConcurrentDictionary<string, Session> sessions;
-        private const byte minutesToCheckSession = 5;
+        private const byte minutesToCheckSession = 1;
         private const byte minutesToDie = 15;
         private const ushort constMinuteToMilliSeconds = 60000;
         private readonly Timer sessionTimer;
@@ -52,7 +52,7 @@ namespace CRM_API.Sessions.Models
             }
         }
 
-        public Session(ConcurrentDictionary<string, Session> sessions, User user, Company company) : this(sessions, "Data Source=crmDataBase.db3")
+        public Session(ConcurrentDictionary<string, Session> sessions, User user, Company company) : this(sessions, "Data Source=crmClientDataBase.db3")
         {
             this.user = user;
             this.company = company;

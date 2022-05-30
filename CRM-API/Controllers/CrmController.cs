@@ -15,7 +15,7 @@ namespace CRM_API.Controllers
     public class CrmController : ControllerBase
     {
         private readonly ConcurrentDictionary<string, Session> sessions;
-        private const string token = nameof(token);
+        private const string headerTokenName = "api-token";
 
         public CrmController(ConcurrentDictionary<string, Session> sessions)
         {
@@ -24,13 +24,20 @@ namespace CRM_API.Controllers
 
         private string GetToken()
         {
-            if (!Request.Headers.Authorization.Contains(token))
+            if (!Request.Headers.Keys.Contains(headerTokenName))
                 return String.Empty;
 
-            return Request.Headers.Authorization.First(x => x.Equals(token));
+            return Request.Headers[headerTokenName];
         }
 
-        public bool UserAuthenticated => this.sessions.Any(x => x.Key.Equals(this.GetToken()));
+        public bool UserAuthenticated
+        {
+            get
+            {
+                string st = this.GetToken();
+                return this.sessions.Any(x => x.Key.Equals(st));
+            }
+        }
 
         public Session Session => this.sessions[this.GetToken()];
 

@@ -3,6 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using CRM_API.SchemaFilter;
 using CRM_API.Sessions.Models;
+using CRM_API.Swagger;
 using Data.ModelsCrm;
 using Data.ModelsCrmClient;
 using DomainDependencyInjection;
@@ -10,6 +11,7 @@ using Lamar;
 using Lamar.Microsoft.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseLamar(
@@ -40,6 +42,31 @@ builder.Host.UseLamar(
         registry.AddSwaggerGen(opt =>
         {
             opt.SchemaFilter<SwaggerExcludeFilter>();
+
+            opt.AddSecurityDefinition("token", new OpenApiSecurityScheme()
+            {
+                Reference = new OpenApiReference()
+                {
+                    Id = "token",
+                    Type = ReferenceType.SecurityScheme
+                },
+                Description = "Token provided by API",
+                Name = "api-token",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.ApiKey,
+            });
+
+            var openApiSecurityRequirement = new OpenApiSecurityRequirement();
+            openApiSecurityRequirement.Add(new OpenApiSecurityScheme()
+            {
+                Reference = new OpenApiReference()
+                {
+                    Id = "token",
+                    Type = ReferenceType.SecurityScheme
+                }
+            }, new List<string>());
+
+            opt.AddSecurityRequirement(openApiSecurityRequirement);
         });
     });
 
