@@ -19,7 +19,11 @@ namespace CRM_API.Controllers
         private readonly IDomainServerAgregate<Company, ReturnCompanyFlag> domainCompanyService;
         private readonly IDomainLogin loginService;
 
-        public LoginController(ConcurrentDictionary<string, Session> sessions, IDomainLogin loginService, IDomainServerAgregate<User, ReturnUserFlag> domainUserService, IDomainServerAgregate<Company, ReturnCompanyFlag> domainCompanyService)
+        public LoginController(
+            ConcurrentDictionary<string, Session> sessions,
+            IDomainLogin loginService,
+            IDomainServerAgregate<User, ReturnUserFlag> domainUserService,
+            IDomainServerAgregate<Company, ReturnCompanyFlag> domainCompanyService)
         {
             this.sessions = sessions;
             this.domainUserService = domainUserService;
