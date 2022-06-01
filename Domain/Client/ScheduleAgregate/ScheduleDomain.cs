@@ -3,6 +3,7 @@ using Data.ModelsCrmClient;
 using Domain.Client.ScheduleAgregate.Data;
 using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Utils;
 using Customer = Domain.Client.CustomerAgregate.Data.Customer;
 using Schedule = Domain.Client.ScheduleAgregate.Data.Schedule;
 
@@ -18,7 +19,6 @@ namespace Domain.Client.ScheduleAgregate
             this.context = context;
             this.customerDomain = customerDomain;
         }
-
         public async Task<Result<Schedule, ReturnFlag>> InsertAsync(Schedule value)
         {
             if (await this.ExistsAsync(value))
@@ -134,12 +134,12 @@ namespace Domain.Client.ScheduleAgregate
             if (!await this.ExistsAsync(id))
                 return ReturnFlag.NoExists;
 
-            return (await this.context.Schedules.FirstAsync(x => x.Id == id)).ToAgregate();
+            return (await this.context.Schedules.AsNoTracking().FirstAsync(x => x.Id == id)).ToAgregate();
         }
 
         public async Task<Result<IEnumerable<Schedule>, ReturnFlag>> SelectAllAsync()
         {
-            var listAsync = await this.context.Schedules.ToListAsync();
+            var listAsync = await this.context.Schedules.AsNoTracking().ToListAsync();
 
             return ImmutableArray.Create<Schedule>().AddRange(listAsync.ToListAgregate()); ;
         }

@@ -1,12 +1,9 @@
 ﻿using System.Collections.Concurrent;
 using CRM_API.Sessions.Models;
-using Domain.Interfaces;
 using Domain.Server.CompanyAgregate.Data;
 using Domain.Server.UserAgregate.Data;
 using Lamar;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.Extensions.Primitives;
 
 namespace CRM_API.Controllers
 {

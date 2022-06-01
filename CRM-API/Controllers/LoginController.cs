@@ -1,10 +1,10 @@
 ﻿using System.Collections.Concurrent;
-using CRM_API.RestModels;
 using CRM_API.Sessions.Models;
 using Domain.Interfaces;
 using Domain.Server.CompanyAgregate.Data;
 using Domain.Server.UserAgregate.Data;
 using Microsoft.AspNetCore.Mvc;
+using UseCase.Contract.Server.LoginContract;
 using ReturnCompanyFlag = Domain.Server.CompanyAgregate.Data.ReturnFlag;
 using ReturnUserFlag = Domain.Server.UserAgregate.Data.ReturnFlag;
 

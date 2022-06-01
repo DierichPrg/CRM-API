@@ -3,6 +3,7 @@ using Data.ModelsCrm;
 using Domain.Interfaces;
 using Domain.Server.UserAgregate.Data;
 using Microsoft.EntityFrameworkCore;
+using Utils;
 using User = Domain.Server.UserAgregate.Data.User;
 
 namespace Domain.Server.UserAgregate

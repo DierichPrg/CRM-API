@@ -3,6 +3,7 @@ using Data.ModelsCrmClient;
 using Domain.Client.CustomerAgregate.Data;
 using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Utils;
 using Customer = Domain.Client.CustomerAgregate.Data.Customer;
 
 namespace Domain.Client.CustomerAgregate
@@ -126,12 +127,12 @@ namespace Domain.Client.CustomerAgregate
             if (!await this.ExistsAsync(id))
                 return ReturnFlag.NoExists;
 
-            return (await this.context.Customers.FirstAsync(x => x.Id == id)).ToAgregate();
+            return (await this.context.Customers.AsNoTracking().FirstAsync(x => x.Id == id)).ToAgregate();
         }
 
         public async Task<Result<IEnumerable<Customer>, ReturnFlag>> SelectAllAsync()
         {
-            var listAsync = await this.context.Customers.ToListAsync();
+            var listAsync = await this.context.Customers.AsNoTracking().ToListAsync();
 
             return ImmutableArray.Create<Customer>().AddRange(listAsync.ToListAgregate()); ;
         }

@@ -3,6 +3,7 @@ using Data.ModelsCrm;
 using Domain.Interfaces;
 using Domain.Server.CompanyAgregate.Data;
 using Microsoft.EntityFrameworkCore;
+using Utils;
 using Company = Domain.Server.CompanyAgregate.Data.Company;
 
 namespace Domain.Server.CompanyAgregate

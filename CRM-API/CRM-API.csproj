@@ -32,6 +32,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DataDependencyInjection\DataDependencyInjection.csproj" />
     <ProjectReference Include="..\DomainDependencyInjection\DomainDependencyInjection.csproj" />
+    <ProjectReference Include="..\UseCaseDependencyInjection\UseCaseDependencyInjection.csproj" />
   </ItemGroup>
 
 </Project>

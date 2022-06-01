@@ -1,8 +1,8 @@
 ﻿using System.Collections.Concurrent;
 using CRM_API.Sessions.Models;
-using Domain.Client.CustomerAgregate.Data;
-using Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using UseCase.Contract.Client.CustomerContract;
+using UseCase.Interfaces.Client;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -23,10 +23,10 @@ namespace CRM_API.Controllers
             if (!this.UserAuthenticated)
                 return Unauthorized($"Invalid token");
 
-            var customerDomain = this.Container.GetService<IDomainClientAgregate<Customer, ReturnFlag>>();
+            var customerUseCase = this.Container.GetService<ICustomerUseCase>();
 
 
-            var selectAllAsync = await customerDomain!.SelectAllAsync();
+            var selectAllAsync = await customerUseCase!.SelectAllCustomersAsync();
             if (selectAllAsync.TryGetValue(out var list, out var alert))
             {
                 return Ok(list);
@@ -44,9 +44,9 @@ namespace CRM_API.Controllers
             if (!this.UserAuthenticated)
                 return Unauthorized($"Invalid token");
 
-            var customerDomain = this.Container.GetService<IDomainClientAgregate<Customer, ReturnFlag>>();
+            var customerUseCase = this.Container.GetService<ICustomerUseCase>();
 
-            var selectAsync = await customerDomain!.SelectAsync(id);
+            var selectAsync = await customerUseCase!.SelectCustomerAsync(id);
 
             if (selectAsync.TryGetValue(out var customer, out var alert))
             {
@@ -65,9 +65,9 @@ namespace CRM_API.Controllers
             if (!this.UserAuthenticated)
                 return Unauthorized($"Invalid token");
 
-            var customerDomain = this.Container.GetService<IDomainClientAgregate<Customer, ReturnFlag>>();
+            var customerUseCase = this.Container.GetService<ICustomerUseCase>();
 
-            var insertAsync = await customerDomain!.InsertAsync(value);
+            var insertAsync = await customerUseCase!.CreateCustomerAsync(value);
 
             if (insertAsync.TryGetValue(out var customer, out var alert))
             {
@@ -86,9 +86,9 @@ namespace CRM_API.Controllers
             if (!this.UserAuthenticated)
                 return Unauthorized($"Invalid token");
 
-            var customerDomain = this.Container.GetService<IDomainClientAgregate<Customer, ReturnFlag>>();
+            var customerUseCase = this.Container.GetService<ICustomerUseCase>();
 
-            var updateAsync = await customerDomain!.UpdateAsync(value);
+            var updateAsync = await customerUseCase!.UpdateCustomerAsync(value);
 
             if (updateAsync.TryGetValue(out var customer, out var alert))
             {
@@ -107,13 +107,13 @@ namespace CRM_API.Controllers
             if (!this.UserAuthenticated)
                 return Unauthorized($"Invalid token");
 
-            var customerDomain = this.Container.GetService<IDomainClientAgregate<Customer, ReturnFlag>>();
+            var customerUseCase = this.Container.GetService<ICustomerUseCase>();
 
-            var selectAsync = await customerDomain!.SelectAsync(id);
+            var selectAsync = await customerUseCase!.SelectCustomerAsync(id);
 
             if (selectAsync.TryGetValue(out var customer, out var alert))
             {
-                var deleteAsync = await customerDomain.DeleteAsync(customer);
+                var deleteAsync = await customerUseCase.DeleteCustomerAsync(customer);
 
                 if (deleteAsync.TryGetValue(out var deleted, out alert))
                 {

@@ -6,6 +6,7 @@ using Domain.Server.UserAgregate.Data;
 using DomainDependencyInjection;
 using Lamar;
 using Microsoft.EntityFrameworkCore;
+using UseCaseDependencyInjection;
 using Timer = System.Timers.Timer;
 
 namespace CRM_API.Sessions.Models
@@ -35,6 +36,7 @@ namespace CRM_API.Sessions.Models
             this.container = new Container(x =>
             {
                 x.Include(DomainClientServiceRegister.GetRegister());
+                x.Include(UseCaseClienteServiceRegister.GetRegister());
                 x.For<Session>().Use(this);
 
                 x.AddDbContext<CrmClientContext>(opt =>

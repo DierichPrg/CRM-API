@@ -1,4 +1,6 @@
-﻿namespace Domain.Interfaces
+﻿using Utils;
+
+namespace Domain.Interfaces
 {
     public interface IDomainAgregate<TAgregateModel, TFlag>
     {

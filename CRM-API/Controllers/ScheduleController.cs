@@ -1,8 +1,8 @@
 ﻿using System.Collections.Concurrent;
 using CRM_API.Sessions.Models;
-using Domain.Client.ScheduleAgregate.Data;
-using Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using UseCase.Contract.Client.ScheduleContract;
+using UseCase.Interfaces.Client;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,9 +24,9 @@ namespace CRM_API.Controllers
             if (!this.UserAuthenticated)
                 return Unauthorized($"Invalid token");
 
-            var scheduleDomain = this.Container.GetService<IDomainClientAgregate<Schedule, ReturnFlag>>();
+            var scheduleUseCase = this.Container.GetService<IScheduleUseCase>();
 
-            var selectAllAsync = await scheduleDomain!.SelectAllAsync();
+            var selectAllAsync = await scheduleUseCase!.SelectAllSchedulesAsync();
             if (selectAllAsync.TryGetValue(out var list, out var alert))
             {
                 return Ok(list);
@@ -44,9 +44,9 @@ namespace CRM_API.Controllers
             if (!this.UserAuthenticated)
                 return Unauthorized($"Invalid token");
 
-            var scheduleDomain = this.Container.GetService<IDomainClientAgregate<Schedule, ReturnFlag>>();
+            var scheduleUseCase = this.Container.GetService<IScheduleUseCase>();
 
-            var selectAsync = await scheduleDomain!.SelectAsync(id);
+            var selectAsync = await scheduleUseCase!.SelectScheduleAsync(id);
 
             if (selectAsync.TryGetValue(out var customer, out var alert))
             {
@@ -65,9 +65,9 @@ namespace CRM_API.Controllers
             if (!this.UserAuthenticated)
                 return Unauthorized($"Invalid token");
 
-            var scheduleDomain = this.Container.GetService<IDomainClientAgregate<Schedule, ReturnFlag>>();
+            var scheduleUseCase = this.Container.GetService<IScheduleUseCase>();
 
-            var insertAsync = await scheduleDomain!.InsertAsync(value);
+            var insertAsync = await scheduleUseCase!.CreateScheduleAsync(value);
 
             if (insertAsync.TryGetValue(out var customer, out var alert))
             {
@@ -86,9 +86,9 @@ namespace CRM_API.Controllers
             if (!this.UserAuthenticated)
                 return Unauthorized($"Invalid token");
 
-            var scheduleDomain = this.Container.GetService<IDomainClientAgregate<Schedule, ReturnFlag>>();
+            var scheduleUseCase = this.Container.GetService<IScheduleUseCase>();
 
-            var updateAsync = await scheduleDomain!.UpdateAsync(value);
+            var updateAsync = await scheduleUseCase!.UpdateScheduleAsync(value);
 
             if (updateAsync.TryGetValue(out var customer, out var alert))
             {
@@ -107,13 +107,13 @@ namespace CRM_API.Controllers
             if (!this.UserAuthenticated)
                 return Unauthorized($"Invalid token");
 
-            var scheduleDomain = this.Container.GetService<IDomainClientAgregate<Schedule, ReturnFlag>>();
+            var scheduleUseCase = this.Container.GetService<IScheduleUseCase>();
 
-            var selectAsync = await scheduleDomain!.SelectAsync(id);
+            var selectAsync = await scheduleUseCase!.SelectScheduleAsync(id);
 
             if (selectAsync.TryGetValue(out var customer, out var alert))
             {
-                var deleteAsync = await scheduleDomain.DeleteAsync(customer);
+                var deleteAsync = await scheduleUseCase.DeleteScheduleAsync(customer);
 
                 if (deleteAsync.TryGetValue(out var deleted, out alert))
                 {

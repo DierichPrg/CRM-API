@@ -3,15 +3,14 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using CRM_API.SchemaFilter;
 using CRM_API.Sessions.Models;
-using CRM_API.Swagger;
 using Data.ModelsCrm;
-using Data.ModelsCrmClient;
 using DomainDependencyInjection;
 using Lamar;
 using Lamar.Microsoft.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using UseCaseDependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseLamar(

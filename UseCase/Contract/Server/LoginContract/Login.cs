@@ -1,4 +1,4 @@
-﻿namespace CRM_API.RestModels
+﻿namespace UseCase.Contract.Server.LoginContract
 {
     public class Login
     {
